@@ -18,15 +18,11 @@ Carte creareCarte(int id, const char* titlu, const char* autor, float pret, int 
     Carte c;
     c.id = id;
 
-    c.titlu = (char*)malloc(strlen(titlu) + 1);
-    if (c.titlu) {
-        strcpy(c.titlu, titlu);
-    }
+    c.titlu = (char*)malloc((strlen(titlu) + 1) * sizeof(char));
+    strcpy(c.titlu, titlu);
 
-    c.autor = (char*)malloc(strlen(autor) + 1);
-    if (c.autor) {
-        strcpy(c.autor, autor);
-    }
+    c.autor = (char*)malloc((strlen(autor) + 1) * sizeof(char));
+    strcpy(c.autor, autor);
 
     c.pret = pret;
     c.nrPagini = nrPagini;
@@ -63,7 +59,7 @@ float calculMedieNote(int* note, int nr) {
 }
 
 float calculPretCuReducere(float pret, float reducere) {
-    return pret - pret * reducere / 100.0f;
+    return pret - pret * reducere / 100;
 }
 
 int sumaPagini(int a, int b) {
@@ -75,17 +71,16 @@ int main() {
     Carte c = creareCarte(1, "Programare in C", "Ion Popescu", 59.99f, 320, note);
 
     c.nrCapitole = 3;
-    c.capitole = (char*)malloc(c.nrCapitole * sizeof(char));
+    c.capitole = (char**)malloc(c.nrCapitole * sizeof(char*));
 
-    if (c.capitole) {
-        c.capitole[0] = (char*)malloc(strlen("Introducere") + 1);
-        c.capitole[1] = (char*)malloc(strlen("Pointeri") + 1);
-        c.capitole[2] = (char*)malloc(strlen("Structuri") + 1);
+    c.capitole[0] = (char*)malloc((strlen("Introducere") + 1) * sizeof(char));
+    strcpy(c.capitole[0], "Introducere");
 
-        if (c.capitole[0]) strcpy(c.capitole[0], "Introducere");
-        if (c.capitole[1]) strcpy(c.capitole[1], "Pointeri");
-        if (c.capitole[2]) strcpy(c.capitole[2], "Structuri");
-    }
+    c.capitole[1] = (char*)malloc((strlen("Pointeri") + 1) * sizeof(char));
+    strcpy(c.capitole[1], "Pointeri");
+
+    c.capitole[2] = (char*)malloc((strlen("Structuri") + 1) * sizeof(char));
+    strcpy(c.capitole[2], "Structuri");
 
     afisareCarte(c);
     printf("Medie note: %.2f\n", calculMedieNote(c.note, 5));
